@@ -49,18 +49,18 @@ int main()
 
     Personage car = {50, 750, right, true};
 
-    int kolmoney = 20;
+    int kolmoney = 50;
     Personage money[kolmoney];
     for(int i=0; i<kolmoney; i++)
     {
-        money[i]= {random(800,6000), random(500,900), mon, true};
+        money[i]= {random(1200,16000), random(500,900), mon, true};
     }
 
-    int kolship = 20;
+    int kolship = 30;
     Personage ship[kolship];
     for(int i=0; i<kolship; i++)
     {
-        ship[i] = {random(1000,6000), random(500,900), Ship, true};
+        ship[i] = {random(2000,20000), random(500,900), Ship, true};
     }
 
    string PAGE = "Ìåíþ";
@@ -141,8 +141,6 @@ int main()
                 drawRoad(road3[i]);
             }
 
-
-
             road1[0].x = road1[0].x - 10;
             road2[0].x = road2[0].x - 10;
             road3[0].x = road3[0].x - 10;
@@ -176,17 +174,19 @@ int main()
             for(int i=0; i<kolmoney; i++)
             {
                 if(car.x<=money[i].x && car.x+300>=money[i].x+80 &&
-                   car.y<=money[i].y && car.y+93 >=money[i].y+80)
+                   car.y-10<=money[i].y && car.y+110 >=money[i].y+80)
                 {
-                  txTextOut(100, 300, "ÓÄÀÐ");
                   money[i].visible = false;
+                  money[i].x = 0;
+                  money[i].y = 0;
                   score++;
                 }
             }
 
             for(int i=0; i<kolship; i++)
             {
-               if(car.x+330>=ship[i].x && car.x+330<=ship[i].x+5 && car.y+90>=ship[i].y+40 && car.y<=ship[i].y+40)
+               if(car.x<=ship[i].x && car.x+330>=ship[i].x+5 &&
+                  car.y-10<=ship[i].y && car.y+110>=ship[i].y+40)
               {
                 ship[i].visible = false;
                 car.visible = false;
@@ -200,6 +200,37 @@ int main()
                 txDrawText(500,100,1000,150,"Game over");
             }
 
+         for(int i=0; i<kolship; i++)
+            if(score >= 10)
+            {
+              road1[0].x = road1[0].x - 15;
+              road2[0].x = road2[0].x - 15;
+              road3[0].x = road3[0].x - 15;
+              ship[i].x = ship[i].x - 15;
+              money[i].x = ship[i].x - 15;
+
+            }
+
+              for(int i=0; i<kolship; i++)
+             if(score >= 20)
+            {
+              road1[0].x = road1[0].x - 20;
+              road2[0].x = road2[0].x - 20;
+              road3[0].x = road3[0].x - 20;
+              ship[i].x = ship[i].x - 20;
+              money[i].x = ship[i].x - 20;
+
+            }
+
+        for(int i=0; i<kolship; i++)
+            if(score == 30)
+            {
+             txSetFillColor(TX_WHITE);
+             txRectangle(400,200,800,500);
+             txSetFillColor(TX_BLACK);
+             txDrawText(600,300,700,400,"YOU WIN!");
+            }
+
             if(GetAsyncKeyState(VK_DOWN))
             {
                 car.y=car.y+20;
@@ -210,25 +241,15 @@ int main()
                 car.y=car.y-20;
             }
 
-            if(GetAsyncKeyState(VK_RIGHT))
-            {
-                car.x=car.x+20;
-            }
-
-            if(GetAsyncKeyState(VK_LEFT))
-            {
-                car.x=car.x-10;
-            }
-
             txEnd();
         }
 
       txSleep(10);
     }
-    txDeleteDC(right);
-    txDeleteDC(mon);
-    txDeleteDC(fon);
-    txDeleteDC(Ship);
+        txDeleteDC(right);
+        txDeleteDC(mon);
+        txDeleteDC(fon);
+        txDeleteDC(Ship);
 
 return 0;
 
